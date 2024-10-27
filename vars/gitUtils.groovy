@@ -42,18 +42,29 @@ def pushChanges(String credentialsId = '', String commitMessage = 'Automated com
 }
 
 
-def createPullRequest(String default_branch, String featureBranch) {
-    def prTitle = "Merge ${featureBranch} into master"
-    def prBody = "This PR merges the feature branch into master."
+def createPullRequest(String defaultBranch, String featureBranch, String credentialsId) {
+    def prTitle = "Merge ${featureBranch} into ${defaultBranch}"
+    def prBody = "This PR merges the feature branch into ${defaultBranch}."
 
-    // Using GitHub CLI to create the PR
-    sh """
-        gh pr create \
-            --base ${default_branch} \
-            --head ${featureBranch} \
-            --title "${prTitle}" \
-            --body "${prBody}" \
-            --repo ${env.GIT_REPO}
-    """
-    echo "Pull request created from '${featureBranch}' to ${default_branch}."
+    // Get the GitHub token from credentials
+    withCredentials([string(credentialsId: credentialsId, variable: 'GITHUB_TOKEN')]) {
+        // Construct the JSON payload for the PR
+        def jsonPayload = """{
+            "title": "${prTitle}",
+            "body": "${prBody}",
+            "head": "${featureBranch}",
+            "base": "${defaultBranch}"
+        }"""
+
+        // Make the API call to create the PR
+        sh """
+            curl -X POST \
+                -H "Authorization: token ${GITHUB_TOKEN}" \
+                -H "Accept: application/vnd.github.v3+json" \
+                -d '${jsonPayload}' \
+                https://api.github.com/repos/${env.GIT_REPO.split('/')[3]}/${env.GIT_REPO.split('/')[4]}/pulls
+        """
+    }
+    
+    echo "Pull request created from '${featureBranch}' to '${defaultBranch}'."
 }
