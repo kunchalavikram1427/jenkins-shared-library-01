@@ -56,6 +56,8 @@ pipeline {
 ```
 ### Example 02
 ```
+@Library('shared_lib') _
+
 pipeline {
     agent any
     environment {
