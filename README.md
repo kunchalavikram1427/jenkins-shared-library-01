@@ -23,7 +23,7 @@ example_shared_library/
 
 ## Pipeline
 ```
-@Library('shared-lib') _  // Load the shared library with the name 'shared-lib'
+@Library('shared_lib') _  // Load the shared library with the name 'shared-lib'
 
 pipeline {
     agent any
@@ -37,8 +37,8 @@ pipeline {
         stage('Test MyClass') {
             steps {
                 script {
-                    // Use the custom class defined in src/org/example/MyClass.groovy
-                    def greeting = org.example.MyClass.getGreeting('Developer')
+                    // Use the custom class defined in src/org/dme/MyClass.groovy
+                    def greeting = org.dme.MyClass.getGreeting('DevOps Made Easy')
                     echo greeting
                 }
             }
