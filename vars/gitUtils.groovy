@@ -41,33 +41,6 @@ def pushChanges(String credentialsId = '', String commitMessage = 'Automated com
     return featureBranch // Return the branch name for later use
 }
 
-// def createPullRequest(String defaultBranch, String featureBranch, String credentialsId) {
-//     def prTitle = "Merge ${featureBranch} into ${defaultBranch}"
-//     def prBody = "This PR merges the feature branch into ${defaultBranch}."
-
-//     // Get GitHub credentials
-//     withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
-//         // Construct the JSON payload for the PR
-//         def jsonPayload = """{
-//             "title": "${prTitle}",
-//             "body": "${prBody}",
-//             "head": "${featureBranch}",
-//             "base": "${defaultBranch}"
-//         }"""
-
-//         // Make the API call to create the PR
-//         sh """
-//             curl -L -X POST \
-//                 -H "Authorization: Bearer ${GIT_PASS}" \
-//                 -H "Accept: application/vnd.github+json" \
-//                 -H "X-GitHub-Api-Version: 2022-11-28" \
-//                 -d '${jsonPayload}' \
-//                 https://api.github.com/repos/${env.GIT_REPO.split('/')[3]}/${env.GIT_REPO.split('/')[4]}/pulls
-//         """
-//     }
-    
-//     echo "Pull request created from '${featureBranch}' to '${defaultBranch}'."
-// }
 
 def createPullRequest(String defaultBranch, String featureBranch, String credentialsId) {
     def prTitle = "Merge ${featureBranch} into ${defaultBranch}"

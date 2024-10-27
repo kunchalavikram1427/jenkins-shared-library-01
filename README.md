@@ -87,7 +87,7 @@ pipeline {
                     def featureBranch = gitUtils.pushChanges(env.GIT_CREDENTIALS, 'Updated hello.txt with greeting')
                     
                     // Create the pull request from the feature branch
-                    gitUtils.createPullRequest(env.GIT_DEFAULT_BRANCH, featureBranch)
+                    gitUtils.createPullRequest(env.GIT_DEFAULT_BRANCH, featureBranch, env.GIT_CREDENTIALS)
                 }
             }
         }
