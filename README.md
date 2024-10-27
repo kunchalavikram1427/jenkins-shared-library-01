@@ -84,10 +84,10 @@ pipeline {
             steps {
                 script {
                     // Push changes and store the feature branch name
-                    def featureBranch = pushChanges(env.GIT_CREDENTIALS, 'Updated hello.txt with greeting')
+                    def featureBranch = gitUtils.pushChanges(env.GIT_CREDENTIALS, 'Updated hello.txt with greeting')
                     
                     // Create the pull request from the feature branch
-                    createPullRequest(env.GIT_DEFAULT_BRANCH, featureBranch)
+                    gitUtils.createPullRequest(env.GIT_DEFAULT_BRANCH, featureBranch)
                 }
             }
         }
