@@ -56,7 +56,7 @@ pipeline {
 ```
 ### Example 02
 ```
-@Library('shared-lib') _  // Load the shared library
+@Library('shared_lib') _  // Load the shared library
 
 pipeline {
     agent any
