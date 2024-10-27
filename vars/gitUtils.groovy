@@ -20,7 +20,7 @@ def pushChanges(String credentialsId = '', String commitMessage = 'Automated com
     sh "git commit -m '${commitMessage}'"
     if (credentialsId) {
         withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
-            sh "git push https://${GIT_USER}:${GIT_PASS}@\$(git config --get remote.origin.url | sed 's/https:\\/\\///g') HEAD:$(git rev-parse --abbrev-ref HEAD)"
+            sh "git push https://\$GIT_USER:\$GIT_PASS@$(git config --get remote.origin.url | sed 's/https:\\/\\///g') HEAD:$(git rev-parse --abbrev-ref HEAD)"
         }
     } else {
         sh "git push origin $(git rev-parse --abbrev-ref HEAD)"
