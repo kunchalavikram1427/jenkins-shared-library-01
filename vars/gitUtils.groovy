@@ -36,6 +36,24 @@ def pushChanges(String credentialsId = '', String commitMessage = 'Automated com
     } else {
         sh "git push origin HEAD:refs/heads/${featureBranch}"
     }
+    
     echo "Changes pushed to branch '${featureBranch}'."
+    return featureBranch // Return the branch name for later use
 }
 
+
+def createPullRequest(String default_branch, String featureBranch) {
+    def prTitle = "Merge ${featureBranch} into master"
+    def prBody = "This PR merges the feature branch into master."
+
+    // Using GitHub CLI to create the PR
+    sh """
+        gh pr create \
+            --base ${default_branch} \
+            --head ${featureBranch} \
+            --title "${prTitle}" \
+            --body "${prBody}" \
+            --repo ${env.GIT_REPO}
+    """
+    echo "Pull request created from '${featureBranch}' to ${default_branch}."
+}
