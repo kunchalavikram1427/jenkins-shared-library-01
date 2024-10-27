@@ -21,7 +21,7 @@ def call(String username) {
 
 def getMultiUserInfo(List<String> usernames) {
     // Load and parse the JSON file
-    def usersJson = libraryResource('users.json')
+    def usersJson = libraryResource('org/dme/users.json')
     def users = new JsonSlurper().parseText(usersJson)
 
     // Find users by matching usernames

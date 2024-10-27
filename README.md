@@ -94,3 +94,32 @@ pipeline {
     }
 }
 ```
+
+### Example 03
+```
+@Library('shared_lib') _
+
+pipeline {
+    agent any
+    stages {
+        stage('Get Single User Info') {
+            steps {
+                script {
+                    def username = 'alice'  // Specify the username you want to fetch info for
+                    def singleUserInfo = getUserInfo(username)  // Call the function for single user
+                    echo "Single User Info: ${singleUserInfo}"
+                }
+            }
+        }
+        stage('Get Multiple Users Info') {
+            steps {
+                script {
+                    def usernames = ['alice', 'bob', 'eve']  // List of usernames
+                    def userInfoList = getUserInfo.getMultiUserInfo(usernames)  // Call the function for multiple users
+                    echo "Multiple Users Info: ${userInfoList}"
+                }
+            }
+        }
+    }
+}
+```
