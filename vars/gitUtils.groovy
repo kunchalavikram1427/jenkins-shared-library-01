@@ -41,13 +41,12 @@ def pushChanges(String credentialsId = '', String commitMessage = 'Automated com
     return featureBranch // Return the branch name for later use
 }
 
-
 def createPullRequest(String defaultBranch, String featureBranch, String credentialsId) {
     def prTitle = "Merge ${featureBranch} into ${defaultBranch}"
     def prBody = "This PR merges the feature branch into ${defaultBranch}."
 
-    // Get the GitHub token from credentials
-    withCredentials([string(credentialsId: credentialsId, variable: 'GITHUB_TOKEN')]) {
+    // Get GitHub credentials
+    withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
         // Construct the JSON payload for the PR
         def jsonPayload = """{
             "title": "${prTitle}",
@@ -59,7 +58,7 @@ def createPullRequest(String defaultBranch, String featureBranch, String credent
         // Make the API call to create the PR
         sh """
             curl -X POST \
-                -H "Authorization: token ${GITHUB_TOKEN}" \
+                -u ${GIT_USER}:${GIT_PASS} \
                 -H "Accept: application/vnd.github.v3+json" \
                 -d '${jsonPayload}' \
                 https://api.github.com/repos/${env.GIT_REPO.split('/')[3]}/${env.GIT_REPO.split('/')[4]}/pulls
