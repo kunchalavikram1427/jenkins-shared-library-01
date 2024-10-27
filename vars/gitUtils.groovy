@@ -18,12 +18,19 @@ def cloneRepo(String repoUrl, String branch = 'main', String credentialsId = '')
 def pushChanges(String credentialsId = '', String commitMessage = 'Automated commit') {
     sh "git add ."
     sh "git commit -m '${commitMessage}'"
+    
     if (credentialsId) {
         withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
-            sh "git push https://\$GIT_USER:\$GIT_PASS@$(git config --get remote.origin.url | sed 's/https:\\/\\///g') HEAD:$(git rev-parse --abbrev-ref HEAD)"
+            // Build the command as a Groovy string
+            def remoteUrl = "\$(git config --get remote.origin.url | sed 's/https:\\/\\///g')"
+            def branchName = "\$(git rev-parse --abbrev-ref HEAD)"
+            def pushCommand = "git push https://${GIT_USER}:${GIT_PASS}@${remoteUrl} HEAD:${branchName}"
+            
+            // Execute the command
+            sh pushCommand
         }
     } else {
-        sh "git push origin $(git rev-parse --abbrev-ref HEAD)"
+        sh "git push origin \$(git rev-parse --abbrev-ref HEAD)"
     }
     echo "Changes pushed to the repository."
 }
