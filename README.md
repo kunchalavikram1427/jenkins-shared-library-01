@@ -21,7 +21,15 @@ example_shared_library/
             └── bar.json
 ```
 
-## Pipeline
+## Concepts
+
+### call() function
+
+In Jenkins Shared Libraries, the `call()` function allows you to treat a Groovy file in the `vars/` directory as if it were a function in your pipeline. By defining a `call()` method in the file, you can invoke it directly using the filename, making parameter passing simple without explicitly referencing the method name. This simplifies and streamlines custom pipeline steps.
+
+## Example Pipelines
+
+### Example 01
 ```
 @Library('shared_lib') _  // Load the shared library with the name 'shared-lib'
 
@@ -45,4 +53,50 @@ pipeline {
         }
     }
 }
+```
+### Example 02
+```
+@Library('shared-lib') _  // Load the shared library
+
+pipeline {
+    agent any
+    environment {
+        GIT_REPO = 'https://github.com/user/repo.git'
+        GIT_CREDENTIALS = ''            // Make credentials optional
+        DOCKER_IMAGE = 'my-docker-image'
+        DOCKER_TAG = '1.0'
+        DOCKER_CREDENTIALS = ''         // Make credentials optional
+    }
+    stages {
+        stage('Clone Repository') {
+            steps {
+                script {
+                    gitUtils.cloneRepo(env.GIT_REPO, 'main', env.GIT_CREDENTIALS)
+                }
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    dockerUtils.buildImage(env.DOCKER_IMAGE, env.DOCKER_TAG)
+                }
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    dockerUtils.pushImage(env.DOCKER_IMAGE, env.DOCKER_TAG, env.DOCKER_CREDENTIALS)
+                }
+            }
+        }
+        stage('Push Changes to Git') {
+            steps {
+                script {
+                    gitUtils.pushChanges(env.GIT_CREDENTIALS, 'Automated Docker build and push commit')
+                }
+            }
+        }
+    }
+}
+
 ```
