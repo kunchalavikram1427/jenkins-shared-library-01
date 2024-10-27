@@ -71,7 +71,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 script {
-                    gitUtils.cloneRepo(env.GIT_REPO, 'main', env.GIT_CREDENTIALS)
+                    gitUtils.cloneRepo(env.GIT_REPO, 'master', env.GIT_CREDENTIALS)
                 }
             }
         }
@@ -85,7 +85,6 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerUtils.buildImage(env.DOCKER_IMAGE, env.DOCKER_TAG)
                     dockerUtils.buildImage(
                         imageName: env.DOCKER_IMAGE,
                         tag: env.DOCKER_TAG,
