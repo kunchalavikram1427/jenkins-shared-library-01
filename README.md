@@ -88,7 +88,7 @@ pipeline {
                     dockerUtils.buildImage(
                         imageName: env.DOCKER_IMAGE,
                         tag: env.DOCKER_TAG,
-                        dockerfileName: Dockerfile.multistage
+                        dockerfileName: "Dockerfile.multistage"
                     )
                 }
             }
