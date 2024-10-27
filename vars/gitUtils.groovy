@@ -17,6 +17,8 @@ def cloneRepo(String repoUrl, String branch = 'main', String credentialsId = '')
 
 def pushChanges(String credentialsId = '', String commitMessage = 'Automated commit') {
     sh "git add ."
+    sh "git config --global user.email jenkins@test.com"
+    sh "git config --global user.name jenkins"
     sh "git commit -m '${commitMessage}'"
     
     if (credentialsId) {
