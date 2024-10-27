@@ -8,7 +8,7 @@ import groovy.json.JsonSlurper
 
 def call(String username) {
     // Load and parse the JSON file
-    def usersJson = libraryResource('users.json')
+    def usersJson = libraryResource('org/dme/users.json')
     def users = new JsonSlurper().parseText(usersJson)
 
     // Find the user by username
