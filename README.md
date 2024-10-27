@@ -78,7 +78,7 @@ pipeline {
         stage('Add a test file Repository') {
             steps {
                 script {
-                    cat "Hello" > hello.txt
+                    sh 'echo "Hello" > hello.txt'
                 }
             }
         }
