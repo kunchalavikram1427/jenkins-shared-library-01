@@ -1,0 +1,7 @@
+[
+    { "username": "alice", "fullName": "Alice Johnson", "email": "alice@example.com", "role": "Developer" },
+    { "username": "bob", "fullName": "Bob Smith", "email": "bob@example.com", "role": "DevOps Engineer" },
+    { "username": "charlie", "fullName": "Charlie Brown", "email": "charlie@example.com", "role": "QA Engineer" },
+    { "username": "dave", "fullName": "Dave Wilson", "email": "dave@example.com", "role": "Project Manager" },
+    { "username": "eve", "fullName": "Eve Adams", "email": "eve@example.com", "role": "Product Owner" }
+]
