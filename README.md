@@ -61,7 +61,7 @@ pipeline {
 pipeline {
     agent any
     environment {
-        GIT_REPO = 'https://github.com/user/repo.git'
+        GIT_REPO = 'https://github.com/kunchalavikram1427/maven-employee-web-application.git'
         GIT_CREDENTIALS = ''            // Make credentials optional
         DOCKER_IMAGE = 'my-docker-image'
         DOCKER_TAG = '1.0'
@@ -75,10 +75,22 @@ pipeline {
                 }
             }
         }
+        stage('Add a test file Repository') {
+            steps {
+                script {
+                    cat "Hello" > hello.txt
+                }
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 script {
                     dockerUtils.buildImage(env.DOCKER_IMAGE, env.DOCKER_TAG)
+                    dockerUtils.buildImage(
+                        imageName: env.DOCKER_IMAGE,
+                        tag: env.DOCKER_TAG,
+                        dockerfileName: Dockerfile.multistage
+                    )
                 }
             }
         }
@@ -98,5 +110,4 @@ pipeline {
         }
     }
 }
-
 ```

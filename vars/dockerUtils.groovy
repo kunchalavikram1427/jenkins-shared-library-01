@@ -1,5 +1,5 @@
-def buildImage(String imageName, String tag = 'latest', String dockerfilePath = '.') {
-    sh "docker build -t ${imageName}:${tag} -f ${dockerfilePath}/Dockerfile ${dockerfilePath}"
+def buildImage(String imageName, String tag = 'latest', String dockerfilePath = '.', String dockerfileName = "Dockerfile") {
+    sh "docker build -t ${imageName}:${tag} -f ${dockerfilePath}/${dockerfileName} ."
     echo "Built Docker image ${imageName}:${tag}"
 }
 
