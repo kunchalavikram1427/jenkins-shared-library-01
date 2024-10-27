@@ -57,9 +57,10 @@ def createPullRequest(String defaultBranch, String featureBranch, String credent
 
         // Make the API call to create the PR
         sh """
-            curl -X POST \
-                -u ${GIT_USER}:${GIT_PASS} \
-                -H "Accept: application/vnd.github.v3+json" \
+            curl -L -X POST \
+                -H "Authorization: Bearer ${GIT_PASS}" \
+                -H "Accept: application/vnd.github+json" \
+                -H "X-GitHub-Api-Version: 2022-11-28" \
                 -d '${jsonPayload}' \
                 https://api.github.com/repos/${env.GIT_REPO.split('/')[3]}/${env.GIT_REPO.split('/')[4]}/pulls
         """
