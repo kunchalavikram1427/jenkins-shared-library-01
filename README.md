@@ -54,6 +54,33 @@ pipeline {
     }
 }
 ```
+You can also use `import`
+```
+@Library('shared_lib') _  // Load the shared library with the name 'shared-lib'
+
+import org.dme.MyClass
+
+pipeline {
+    agent any
+    stages {
+        stage('Test exampleFunction') {
+            steps {
+                // Call the function defined in vars/exampleFunction.groovy
+                exampleFunction('DevOps Enthusiast')
+            }
+        }
+        stage('Test MyClass') {
+            steps {
+                script {
+                    // Use the custom class defined in src/org/dme/MyClass.groovy
+                    def greeting = MyClass.getGreeting('DevOps Made Easy')
+                    echo greeting
+                }
+            }
+        }
+    }
+}
+```
 ### Example 02
 ```
 @Library('shared_lib') _
